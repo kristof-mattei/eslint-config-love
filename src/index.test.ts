@@ -300,6 +300,7 @@ const isPinnedRange = (rangeStr: string): boolean => {
     range.set[0].length === 1 &&
     range.set[0][0].operator === ''
 }
+const isGithubDep = (rangeStr: string): boolean => rangeStr.startsWith('github:')
 
 const typescriptEslintBottom = '@typescript-eslint_bottom'
 const typescriptEslintBottomPlugin = `${typescriptEslintBottom}/eslint-plugin`
@@ -311,7 +312,7 @@ test('Dependencies range types', async (t) => {
   t.deepEqual(Object.keys(ourDeps).sort(), ['@typescript-eslint/parser', 'eslint-config-standard'])
   const eslintConfigStandard = ourDeps['eslint-config-standard']
   if (eslintConfigStandard === undefined) throw new Error()
-  t.true(isPinnedRange(eslintConfigStandard), 'eslint-config-standard is pinned')
+  t.true(isGithubDep(eslintConfigStandard), 'eslint-config-standard is a github dep')
   const parser = ourDeps['@typescript-eslint/parser']
   if (parser === undefined) throw new Error()
   t.true(isSingleCaretRange(parser), '@typescript-eslint/parser is a single `^` range.')
